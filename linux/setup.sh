@@ -9,7 +9,33 @@
 # clones Blackbird & SpiderFoot, and creates `recon` / `recon-web` launchers in ~/.local/bin.
 set -euo pipefail
 
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# ── Resolve repo directory ────────────────────────────────────────────
+# Works both as a file (./linux/setup.sh) and piped via stdin (curl | bash),
+# where $0/BASH_SOURCE are unreliable. We must end up inside the repo
+# (the directory that contains recon.py).
+resolve_repo_dir() {
+    local dir="$PWD"
+    if [ -n "${BASH_SOURCE[0]:-}" ]; then
+        local src
+        src="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)" && dir="$src/.."
+    fi
+    dir="$(cd "$dir" 2>/dev/null && pwd)" || dir="$PWD"
+    if [ -f "$dir/recon.py" ]; then
+        echo "$dir"; return 0
+    fi
+    if [ -f "$PWD/recon.py" ]; then
+        echo "$PWD"; return 0
+    fi
+    return 1
+}
+
+REPO_DIR="$(resolve_repo_dir)" || {
+    fail "Could not locate the recon repo (recon.py not found)."
+    fail "Run this script from inside the recon-linux checkout, e.g.:"
+    fail "  git clone https://github.com/Wester4253/recon-linux.git"
+    fail "  cd recon-linux && ./linux/setup.sh"
+    exit 1
+}
 BIN_DIR="$HOME/.local/bin"
 mkdir -p "$BIN_DIR"
 
