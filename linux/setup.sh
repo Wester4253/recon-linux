@@ -9,6 +9,10 @@
 # clones Blackbird & SpiderFoot, and creates `recon` / `recon-web` launchers in ~/.local/bin.
 set -euo pipefail
 
+
+log()  { printf '  [*] %s\n' "$*"; }
+ok()   { printf '  [+] %s\n' "$*"; }
+fail() { printf '  [!] %s\n' "$*" >&2; }
 # ── Resolve repo directory ────────────────────────────────────────────
 # Works both as a file (./linux/setup.sh) and piped via stdin (curl | bash),
 # where $0/BASH_SOURCE are unreliable. We must end up inside the repo
@@ -38,10 +42,6 @@ REPO_DIR="$(resolve_repo_dir)" || {
 }
 BIN_DIR="$HOME/.local/bin"
 mkdir -p "$BIN_DIR"
-
-log()  { printf '  [*] %s\n' "$*"; }
-ok()   { printf '  [+] %s\n' "$*"; }
-fail() { printf '  [!] %s\n' "$*" >&2; }
 
 # ── Detect distro & package manager ───────────────────────────────────────────
 ID_LIKE=""
