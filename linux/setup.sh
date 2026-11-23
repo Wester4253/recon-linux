@@ -141,7 +141,8 @@ clone_tool() {
     fi
     if [ -f "$REPO_DIR/$name/$req" ]; then
         log "Installing $name requirements..."
-        $VENV_PY -m pip install -r "$REPO_DIR/$name/$req" --quiet || \
+        $VENV_PY -m pip install -r "$REPO_DIR/$name/$req" --quiet \
+            >/dev/null 2>&1 || \
             fail "pip install -r $name/$req failed (non-fatal)."
     fi
     ok "$name ready."
