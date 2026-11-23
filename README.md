@@ -10,6 +10,20 @@ Open PowerShell and run:
 powershellSet-ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm https://raw.githubusercontent.com/togg53192-cmd/recon/main/install.ps1 | iex
 ```
+
+# Installation (Linux)
+
+Debian, Ubuntu, Arch, and other distros with apt/pacman/dnf/yum/zypper:
+
+```bash
+chmod +x linux/setup.sh
+./linux/setup.sh
+```
+
+This installs system packages (python3, pip, git), Python deps (aiohttp +
+OSINT tools), clones Blackbird & SpiderFoot, and creates `recon` and
+`recon-web` launchers in `~/.local/bin`. See `linux/README.md` for details.
+
 # Usage
 
 Web UI (recommended)

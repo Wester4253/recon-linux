@@ -1,0 +1,10 @@
+# Runtime artifacts (created by setup / first run)
+blackbird/
+spiderfoot/
+.venv/
+__pycache__/
+*.pyc
+
+# Generated output
+recon_*.json
+.recon_cache/
